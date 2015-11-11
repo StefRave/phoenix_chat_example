@@ -1,7 +1,7 @@
 defmodule Chat.UserSocket do
   use Phoenix.Socket
 
-  channel "rooms:*", Chat.RoomChannel
+  channel "status*", Chat.NotificationChannel
 
   transport :websocket, Phoenix.Transports.WebSocket
   transport :longpoll, Phoenix.Transports.LongPoll
