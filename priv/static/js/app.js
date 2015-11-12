@@ -1323,7 +1323,7 @@ var App = (function () {
         var $status = $("#status");
         var $messages = $("#messages");
         var $input = $("#message-input");
-        var $username = $("#username");
+        var $terminalId = $("#tmsTerminalId");
 
         socket.onOpen(function (ev) {
           return console.log("OPEN", ev);
@@ -1335,7 +1335,7 @@ var App = (function () {
           return console.log("CLOSE", e);
         });
 
-        var chan = socket.channel("rooms:lobby", {});
+        var chan = socket.channel("notification", {});
         chan.join().receive("ignore", function () {
           return console.log("auth error");
         }).receive("ok", function () {
@@ -1352,7 +1352,7 @@ var App = (function () {
 
         $input.off("keypress").on("keypress", function (e) {
           if (e.keyCode == 13) {
-            chan.push("new:msg", { user: $username.val(), body: $input.val() });
+            chan.push("pushntf", { terminalId: $terminalId.val(), content: $input.val() });
             $input.val("");
           }
         });

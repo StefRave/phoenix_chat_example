@@ -11,13 +11,13 @@ class App {
     var $status    = $("#status")
     var $messages  = $("#messages")
     var $input     = $("#message-input")
-    var $username  = $("#username")
+    var $terminalId= $("#tmsTerminalId")
 
     socket.onOpen( ev => console.log("OPEN", ev) )
     socket.onError( ev => console.log("ERROR", ev) )
     socket.onClose( e => console.log("CLOSE", e))
 
-    var chan = socket.channel("rooms:lobby", {})
+    var chan = socket.channel("notification", {})
     chan.join().receive("ignore", () => console.log("auth error"))
                .receive("ok", () => console.log("join ok"))
                .after(10000, () => console.log("Connection interruption"))
@@ -26,7 +26,7 @@ class App {
 
     $input.off("keypress").on("keypress", e => {
       if (e.keyCode == 13) {
-        chan.push("new:msg", {user: $username.val(), body: $input.val()})
+        chan.push("pushntf", {terminalId: $terminalId.val(), content: $input.val()})
         $input.val("")
       }
     })
