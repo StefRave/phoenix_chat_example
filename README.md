@@ -14,8 +14,13 @@ Now you can visit `localhost:4000` from your browser.
 http://phoenixchat.herokuapp.com
 
 ## Build & Run in docker
+```
 docker build -t phoenixchat .
 docker run  -d --env HOST=192.168.59.103 -p 4000:4000 --name=chat phoenixchat
+
+(prod)
+docker run  -d --env HOST=hoi.cloudapp.net -p 4000:4000 -p 443:443 --name=chat phoenixchat
+```
 
 ## Example Code
 

@@ -8,7 +8,7 @@ use Mix.Config
 # meaningful, we use this information when generating URLs.
 config :chat, Chat.Endpoint,
   http: [port: System.get_env("PORT") || 4000],
-  url: [host: System.get_env("HOST") || "localhost"]
+  url: [host: System.get_env("HOST") || "localhost"],
 
 # ## SSL Support
 #
@@ -17,9 +17,11 @@ config :chat, Chat.Endpoint,
 #
 #  config:chat, Chat.Endpoint,
 #    ...
-#    https: [port: 443,
-#            keyfile: System.get_env("SOME_APP_SSL_KEY_PATH"),
-#            certfile: System.get_env("SOME_APP_SSL_CERT_PATH")]
+  https: [port: 443,
+          keyfile: System.get_env("SSL_KEY_PATH"),
+          certfile: System.get_env("SSL_CERT_PATH")]
+        #keyfile: "../../../../config/terminalanywhere.key",
+        #  certfile: "../../../../config/terminalanywhere.crt"]
 #
 # Where those two env variables point to a file on
 # disk for the key and cert.
