@@ -11,8 +11,9 @@ defmodule Chat do
       supervisor(Chat.Endpoint, []),
       # Start the Ecto repository
       worker(Chat.Repo, []),
-      # Here you could define other workers and supervisors as children
-      # worker(Chat.Worker, [arg1, arg2, arg3]),
+
+      # The chat registry. Contains an overview of connected terminals.
+      worker(Chat.Registry, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html

@@ -15,7 +15,13 @@ defmodule Chat.TerminalChannel do
   def join("terminal:" <> terminal_id, _message, socket) do
     Process.flag(:trap_exit, true)
     #send(self, {:after_join, message})
-    Logger.info "> terminal join #{terminal_id}"
+
+    # Register this terminal in the registry.
+    Chat.Registry.register(terminal_id)
+
+    # For debugging purposes, print all connected terminals.
+    Logger.info "Terminal #{terminal_id} connected. Currently connected terminals: "
+    Logger.info (inspect Chat.Registry.get())
 
     Chat.Endpoint.broadcast! "notification", "new:msg", %{ user: terminal_id, body: "Joined"} 
 
@@ -25,7 +31,12 @@ defmodule Chat.TerminalChannel do
   def terminate(reason, socket) do
     terminal_id = socket.assigns.terminal_id
 
-    Logger.info "> terminal leave #{terminal_id} #{inspect reason}"
+    # Unregister this terminal in the registry.
+    Chat.Registry.unregister(terminal_id)
+
+    # For debugging purposes, print all connected terminals.
+    Logger.info "Terminal #{terminal_id} disconnected (#{inspect reason}). Currently connected terminals: "
+    Logger.info (inspect Chat.Registry.get())
 
     Chat.Endpoint.broadcast! "notification", "new:msg", %{ user: terminal_id, body: "Left"} 
     :ok
@@ -34,6 +45,9 @@ defmodule Chat.TerminalChannel do
   def handle_in("status", msg, socket) do
     terminal_id = socket.assigns.terminal_id
     Logger.info "> status #{terminal_id} #{msg["body"]}"
+
+    # Update the status of this terminal in our registry.
+    Chat.Registry.update_status(terminal_id, msg["body"])
 
     Chat.Endpoint.broadcast! "notification", "new:msg", %{ user: terminal_id, body: msg["body"]} 
 
