@@ -19,12 +19,15 @@ config :chat, Chat.Endpoint,
 #    ...
   https: [port: 443,
           keyfile: System.get_env("SSL_KEY_PATH"),
-          certfile: System.get_env("SSL_CERT_PATH")]
+          certfile: System.get_env("SSL_CERT_PATH")],
         #keyfile: "../../../../config/terminalanywhere.key",
         #  certfile: "../../../../config/terminalanywhere.crt"]
 #
 # Where those two env variables point to a file on
 # disk for the key and cert.
+
+  check_origin: false
+#
 
 # Do not print debug messages in production
 config :logger, level: :info
