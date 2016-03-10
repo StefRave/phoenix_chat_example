@@ -49,4 +49,24 @@ defmodule Chat.TerminalChannel do
 
     {:noreply, socket}
   end
+
+  def handle_in("vxscreenshot", msg, socket) do
+    terminal_id = socket.assigns.terminal_id
+    Logger.info "> vxscreenshot #{terminal_id} #{msg["body"]}"
+
+    Chat.Endpoint.broadcast! "vx_view:" <> terminal_id, "screenshot", msg 
+
+    {:noreply, socket}
+  end
+
+  def handle_in("webserviceresponse", msg, socket) do
+    terminal_id = socket.assigns.terminal_id
+    client_id = msg["clientId"]
+    Logger.info "> webservicersp #{terminal_id} #{client_id}"
+
+    Chat.Endpoint.broadcast! "webservice:" <> client_id, "webserviceresponse", msg 
+
+    {:noreply, socket}
+  end
+
 end

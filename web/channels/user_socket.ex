@@ -3,6 +3,8 @@ defmodule Chat.UserSocket do
 
   channel "notification", Chat.NotificationChannel
   channel "terminal:*", Chat.TerminalChannel
+  channel "vx_view:*", Chat.VxViewChannel
+  channel "webservice:*", Chat.WebServiceChannel
 
   transport :websocket, Phoenix.Transports.WebSocket
   transport :longpoll, Phoenix.Transports.LongPoll

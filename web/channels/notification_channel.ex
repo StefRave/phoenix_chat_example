@@ -12,14 +12,14 @@ defmodule Chat.NotificationChannel do
   `:ignore` to deny subscription/broadcast on this channel
   for the requested topic
   """
-  def join("notification", message, socket) do
+  def join("notification", _message, socket) do
     Process.flag(:trap_exit, true)
     Logger.info "> notification join"
 
     {:ok, socket}
   end
 
-  def terminate(reason, socket) do
+  def terminate(reason, _socket) do
     Logger.info "> notification leave #{inspect reason}"
     :ok
   end
