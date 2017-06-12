@@ -9,8 +9,6 @@ defmodule Chat do
     children = [
       # Start the endpoint when the application starts
       supervisor(Chat.Endpoint, []),
-      # Start the Ecto repository
-      worker(Chat.Repo, []),
 
       # The chat registry. Contains an overview of connected terminals.
       worker(Chat.Registry, []),
