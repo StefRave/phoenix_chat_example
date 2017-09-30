@@ -1,4 +1,4 @@
-FROM nifty/elixir
+FROM elixir:1.3
 
 ENV HOST=localhost
 ENV PORT=4000
