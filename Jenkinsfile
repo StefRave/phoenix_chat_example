@@ -30,15 +30,13 @@ pipeline {
 
         stage("Publish") {
             failFast false
-            stage("Publish to Docker registry") {
-                environment {
-                    ARTIFACTORY = credentials("artifactory")
-                    ARTIFACTORY_DOCKER_URL = "10.36.10.23:5002"
-                    NEXUS_DOCKER_URL = "cm-registry.ccveu.local:5004"
-                }
-                steps {
-                    sh "build/publish.sh"
-                }
+            environment {
+                ARTIFACTORY = credentials("artifactory")
+                ARTIFACTORY_DOCKER_URL = "10.36.10.23:5002"
+                NEXUS_DOCKER_URL = "cm-registry.ccveu.local:5004"
+            }
+            steps {
+                sh "build/publish.sh"
             }
         }
 
