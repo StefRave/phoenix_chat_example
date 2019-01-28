@@ -1,0 +1,22 @@
+FROM cm-registry.ccveu.local:5000/alpine:3.8
+
+RUN apk update
+RUN apk add openssh
+RUN apk add sshpass
+RUN apk add git
+RUN apk add ansible
+RUN apk add bash gawk sed grep bc coreutils
+
+ARG user=jenkins
+ARG uid=2002
+
+USER root
+
+# Create a user and group named jenkins to avoid 'unknown' user and have the rights to add folders/files
+# Otherwise you are not able to add folders like .ssh
+RUN addgroup -g 2002 -S jenkins && \
+    adduser -u 2002 -S jenkins -G jenkins -h /home/jenkins
+
+USER jenkins
+
+WORKDIR /

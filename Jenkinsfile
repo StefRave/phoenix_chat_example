@@ -40,39 +40,39 @@ pipeline {
             }
         }
 
-        // stage("Deploy on systemsdev") {
-        //     failFast false
-        //     stage("Deploy application on systemsdev") {
-        //         agent {
-        //             dockerfile {
-        //                 filename "build/deploy/Dockerfile.deploy"
-        //                 additionalBuildArgs "--pull"
-        //             }
-        //         }
-        //         environment {
-        //             ENVIRONMENT = 'systemsdev'
-        //             EXTRA_VARS = "ccv_mertical_version=${env.BUILD_VERSION}"
-        //             PLAYBOOK_PATH = 'devops360repo/mertical2'
-        //             PLAYBOOK_FILENAME = 'install-mertical-docker.yml'
-        //             PLAYBOOK_REQUIREMENTS_TEMPLATE = 'requirements.yml.template'
-        //         }
-        //         steps {
-        //             dir('devops360repo'){
-        //                 git branch: "master", url: "git@10.36.10.22:devops/devops360.git"
-        //                 sh "${env.WORKSPACE}/build/deploy/checkout-nearest-devops360-tag.sh"
-        //                 dir('ssh-pub-keys'){
-        //                     git branch: "master", url: "git@10.36.10.22:devops/ssh-pub-keys.git"
-        //                 }
-        //             }
+        stage("Deploy on systemsdev") {
+            failFast false
+            stage("Deploy application on systemsdev") {
+                agent {
+                    dockerfile {
+                        filename "build/deploy/Dockerfile.deploy"
+                        additionalBuildArgs "--pull"
+                    }
+                }
+                environment {
+                    ENVIRONMENT = 'systemsdev'
+                    EXTRA_VARS = "ccv_terminalanywhere_version=${env.BUILD_VERSION}"
+                    PLAYBOOK_PATH = 'devops360repo/terminalanywhere'
+                    PLAYBOOK_FILENAME = 'install-terminalanywhere.yml'
+                    PLAYBOOK_REQUIREMENTS_TEMPLATE = 'requirements.yml.template'
+                }
+                steps {
+                    dir('devops360repo'){
+                        git branch: "feature/terminalanywhere", url: "git@10.36.10.22:devops/devops360.git"
+                        // sh "${env.WORKSPACE}/build/deploy/checkout-nearest-devops360-tag.sh"
+                        dir('ssh-pub-keys'){
+                            git branch: "master", url: "git@10.36.10.22:devops/ssh-pub-keys.git"
+                        }
+                    }
                     
-        //             withCredentials(bindings: [
-        //                 sshUserPrivateKey(credentialsId: '9694ff91-7dd4-4623-a159-1c335673864d',keyFileVariable: 'DEPLOY_KEY'),
-        //                 sshUserPrivateKey(credentialsId: '9694ff91-7dd4-4623-a159-1c335673864d',keyFileVariable: 'GITLAB_KEY')]) {  
-        //                 sh "build/deploy/execute-deploy.sh"
-        //             }
-        //         }
-        //     }
-        // }
+                    withCredentials(bindings: [
+                        sshUserPrivateKey(credentialsId: '9694ff91-7dd4-4623-a159-1c335673864d',keyFileVariable: 'DEPLOY_KEY'),
+                        sshUserPrivateKey(credentialsId: '9694ff91-7dd4-4623-a159-1c335673864d',keyFileVariable: 'GITLAB_KEY')]) {  
+                        sh "build/deploy/execute-deploy.sh"
+                    }
+                }
+            }
+        }
 
         // stage("Promote development version to final") {
         //     when {
