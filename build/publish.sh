@@ -15,8 +15,8 @@ echo "Publishing to Docker registry"
 docker login $ARTIFACTORY_DOCKER_URL -u $ARTIFACTORY_USR -p $ARTIFACTORY_PSW
 cd $WORKSPACE
 
-docker build -t terminal-anywhere:${BUILD_VERSION} -f Dockerfile .
+docker build -t terminal-anywhere-switch:${BUILD_VERSION} -f Dockerfile .
 
-pushToDockerRegistry terminal-anywhere:${BUILD_VERSION} ccv/terminal-anywhere:${BUILD_VERSION} $ARTIFACTORY_DOCKER_URL
-pushToDockerRegistry terminal-anywhere:${BUILD_VERSION} ccv/terminal-anywhere:${BUILD_VERSION} $NEXUS_DOCKER_URL
-pushToDockerRegistry terminal-anywhere:${BUILD_VERSION} ccv/terminal-anywhere:latest-dev $NEXUS_DOCKER_URL
+pushToDockerRegistry terminal-anywhere-switch:${BUILD_VERSION} ccv/terminal-anywhere-switch:${BUILD_VERSION} $ARTIFACTORY_DOCKER_URL
+pushToDockerRegistry terminal-anywhere-switch:${BUILD_VERSION} ccv/terminal-anywhere-switch:${BUILD_VERSION} $NEXUS_DOCKER_URL
+pushToDockerRegistry terminal-anywhere-switch:${BUILD_VERSION} ccv/terminal-anywhere-switch:latest-dev $NEXUS_DOCKER_URL
