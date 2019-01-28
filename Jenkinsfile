@@ -40,7 +40,7 @@ pipeline {
             }
         }
 
-        stage("Deploy application on systemsdev") {
+        stage("Deploy application on ocdev") {
             agent {
                 dockerfile {
                     filename "build/deploy/Dockerfile.deploy"
@@ -48,7 +48,7 @@ pipeline {
                 }
             }
             environment {
-                ENVIRONMENT = 'systemsdev'
+                ENVIRONMENT = 'ocdev'
                 EXTRA_VARS = "ccv_terminalanywhere_version=${env.BUILD_VERSION}"
                 PLAYBOOK_PATH = 'devops360repo/terminalanywhere'
                 PLAYBOOK_FILENAME = 'install-terminalanywhere.yml'
