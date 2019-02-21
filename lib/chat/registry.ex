@@ -15,8 +15,8 @@ defmodule Chat.Registry do
 		Agent.start_link(fn -> %{} end, name: __MODULE__)
 	end
 
-	def register (terminal_id) do
-		Agent.update(__MODULE__, &add_terminal(&1, terminal_id))
+	def register(terminal_id, message) do
+		Agent.update(__MODULE__, &add_terminal(&1, terminal_id, message))
 	end
 
 	def update_status(terminal_id, status) do
@@ -35,7 +35,7 @@ defmodule Chat.Registry do
 		Agent.get(__MODULE__, fn map -> map end)
 	end
 
-	defp add_terminal(map, terminal_id) do
+	defp add_terminal(map, terminal_id, message) do
 		if Map.has_key?(map, terminal_id) do
 			Logger.info "[registry.ex] Duplicate terminal registration for #{terminal_id}." 
 			map
@@ -43,7 +43,7 @@ defmodule Chat.Registry do
 			# Initially, the terminal has no status. Just hacked it as empty string. 
 			# TODO: We could maybe have some default state, or atleast a :no_status
 			#       and {:status, status} format?
-			Map.put(map, terminal_id, "")
+			Map.put(map, terminal_id, message)
 		end
 	end
 end

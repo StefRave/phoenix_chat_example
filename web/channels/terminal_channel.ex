@@ -12,12 +12,12 @@ defmodule Chat.TerminalChannel do
   `:ignore` to deny subscription/broadcast on this channel
   for the requested topic
   """
-  def join("terminal:" <> terminal_id, _message, socket) do
+  def join("terminal:" <> terminal_id, message, socket) do
     Process.flag(:trap_exit, true)
     #send(self, {:after_join, message})
 
     # Register this terminal in the registry.
-    Chat.Registry.register(terminal_id)
+    Chat.Registry.register(terminal_id, message)
 
     # For debugging purposes, print all connected terminals.
     Logger.info "Terminal #{terminal_id} connected. Currently connected terminals: "
